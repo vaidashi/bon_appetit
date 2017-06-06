@@ -1,13 +1,14 @@
-
-
+require 'pry'
+require_relative 'recipe'
 
 class Pantry
 
-  attr_accessor :stock
+  # attr_reader   :recipe
+  attr_accessor :stock, :recipe
 
   def initialize
-    @stock = {}
-
+    @stock      = {}
+    @recipe     = Recipe.new(recipe)
   end
 
   def stock_check(item)
@@ -20,16 +21,22 @@ class Pantry
     else
       @stock = {ingredient => quantity}
     end
-  end 
+  end
 
+  def convert_units(recipe)
+    @recipe.ingredients.map do |key, value|
+      if value > 100
+         value / 100
+      elsif value < 1
+         value * 1000
+      else
+         value * 1
+      end
+    end
+  end
+
+
+
+
+# binding.pry
 end
-
-
-# counted_animals = {}
-# animals.each do |animal|
-#   if counted_animals[animal]
-#     counted_animals[animal] += 1
-#   else
-#     counted_animals[animal] = 1
-#   end
-# end

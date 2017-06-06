@@ -42,5 +42,16 @@ class PantryTest < Minitest::Test
     assert_equal 30, result
   end
 
+  def test_pantry_converts_units_for_recipe
+    r  = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cayenne Pepper", 0.025)
+    r.add_ingredient("Cheese", 75)
+    r.add_ingredient("Flour", 500)
+
+    pantry = Pantry.new
+    pantry.convert_units(r)
+
+    assert_equal 25, r.ingredients["Cayenne Pepper"]
+  end
 
 end
