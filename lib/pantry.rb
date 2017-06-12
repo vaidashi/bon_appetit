@@ -4,11 +4,12 @@ require_relative 'recipe'
 class Pantry
 
   # attr_reader   :recipe
-  attr_accessor :stock, :recipe
+  attr_accessor :stock, :recipe, :shopping_list
 
   def initialize
     @stock      = {}
     @recipe     = Recipe.new(recipe)
+    @shopping_list = {}
   end
 
   def stock_check(item)
@@ -36,6 +37,14 @@ class Pantry
       end
     end
     converted_units
+  end
+
+  def add_to_shopping_list(recipe)
+    ingredients = recipe.ingredients
+    @shopping_list = ingredients.each do |k,v|
+      shopping_list[k] ||= 0
+      shopping_list[k] += v
+    end 
   end
 
 
