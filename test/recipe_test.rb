@@ -1,6 +1,7 @@
 require './lib/recipe'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'minitest/emoji'
 require 'pry'
 
 class RecipeTest < Minitest::Test
@@ -23,6 +24,6 @@ class RecipeTest < Minitest::Test
     assert_equal 500, r.amount_required("Flour")
   end
 
-  
+
 
 end
