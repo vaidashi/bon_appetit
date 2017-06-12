@@ -47,7 +47,19 @@ class Pantry
     end
   end
 
-
+  def print_shopping_list
+    # @shopping_list.map{|k,v| "#{k}: #{v}"}.join(',')
+    # shopper_list = @shopping_list.map do |list|
+    #   "* #{list[0]}: #{list[1]}\n"
+    # end
+    # shopper_list.join('')
+    list_output = ""
+    @shopping_list.each do |ingredient, amount|
+      list_output += "* #{ingredient}: #{amount}\n"
+    end
+    puts list_output.strip
+    list_output.strip 
+  end
 
   # def convert_units(recipe)
   #   recipe.ingredients.map do |item, quantity|
