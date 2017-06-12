@@ -24,29 +24,46 @@ class Pantry
   end
 
   def convert_units(recipe)
-    recipe.ingredients.map do |item, quantity|
-      recipe.ingredients[item] = if quantity < 1
-                                  milli_units(quantity)
-                                elsif quantity > 100
-                                  centi_units(quantity)
-                                else
-                                  universal_units(quantity)
-                                end
+    ingredients = recipe.ingredients
+    converted_units = {}
+    ingredients.each do |k,v|
+      if v < 1
+        converted_units[k] = {quantity: (v * 1000), units: "Milli-Units"}
+      elsif v > 100
+        converted_units[k] = {quantity: (v / 100), units: "Centi-Units"}
+      else
+        converted_units[k] = {quantity: v, units: "Universal Units"}
+      end
     end
-    recipe.ingredients
+    converted_units
   end
 
-  def milli_units(quantity)
-    [{ quantity: (quantity * 1000).round, units: "Milli-units"}]
-  end
 
-  def centi_units(quantity)
-    [{ quantity: (quantity / 100), units: "Centi-Units"}]
-  end
 
-  def universal_units(quantity)
-    [{ quantity: quantity, units: "Universal Units" }]
-  end
+  # def convert_units(recipe)
+  #   recipe.ingredients.map do |item, quantity|
+  #     recipe.ingredients[item] = if quantity < 1
+  #                                 milli_units(quantity)
+  #                               elsif quantity > 100
+  #                                 centi_units(quantity)
+  #                               else
+  #                                 universal_units(quantity)
+  #                               end
+  #   end
+  #   recipe.ingredients
+  # end
+  #
+  # def milli_units(quantity)
+  #   { quantity: (quantity * 1000).round, units: "Milli-units"}
+  # end
+  #
+  # def centi_units(quantity)
+  #   { quantity: (quantity / 100), units: "Centi-Units"}
+  # end
+  #
+  # def universal_units(quantity)
+  #   { quantity: quantity, units: "Universal Units" }
+  # end
 
 
 end
