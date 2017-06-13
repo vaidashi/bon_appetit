@@ -80,13 +80,13 @@ class Pantry
   end
 
   def quantity_limitation(item)
-    limit = 0
+    stock_limit = 0
     cook_book[item].each do |k, v|
-      if limit = 0 || limit > stock[k] / v
-        limit = stock[k] / v
+      if stock_limit = 0 || stock_limit > stock[k] / v
+        stock_limit = stock[k] / v
       end
     end
-    limit
+    stock_limit
   end
 
 end
