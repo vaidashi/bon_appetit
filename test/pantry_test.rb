@@ -67,28 +67,32 @@ class PantryTest < Minitest::Test
   def test_add_recipe_to_shopping_list
     pantry = Pantry.new
     r      = Recipe.new("Cheese Pizza")
+
     r.add_ingredient("Cheese", 20)
     r.add_ingredient("Flour", 20)
+    expected_1 = {"Cheese" => 20, "Flour" => 20}
+    actual_1   = r.ingredients
 
     pantry.add_to_shopping_list(r)
-    expected = {"Cheese" => 20, "Flour" => 20}
-    actual = pantry.shopping_list
+    expected_2 = {"Cheese" => 20, "Flour" => 20}
+    actual_2   = pantry.shopping_list
 
-    assert_equal expected, actual
+    assert_equal expected_1, actual_1
+    assert_equal expected_2, actual_2
   end
 
   def test_adding_multiple_recipes_to_shopping_list
-    pantry = Pantry.new
-    r      = Recipe.new("Cheese Pizza")
-    r.add_ingredient("Cheese", 20)
-    r.add_ingredient("Flour", 20)
+    pantry   = Pantry.new
+    r_1      = Recipe.new("Cheese Pizza")
+    r_1.add_ingredient("Cheese", 20)
+    r_1.add_ingredient("Flour", 20)
 
     r_2 = Recipe.new("Spaghetti")
     r_2.add_ingredient("Noodles", 10)
     r_2.add_ingredient("Sauce", 10)
     r_2.add_ingredient("Cheese", 5)
 
-    pantry.add_to_shopping_list(r)
+    pantry.add_to_shopping_list(r_1)
     pantry.add_to_shopping_list(r_2)
 
     expected = {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
@@ -98,17 +102,17 @@ class PantryTest < Minitest::Test
   end
 
   def test_shopping_list_can_be_printed
-    pantry = Pantry.new
-    r      = Recipe.new("Cheese Pizza")
-    r.add_ingredient("Cheese", 20)
-    r.add_ingredient("Flour", 20)
+    pantry   = Pantry.new
+    r_1      = Recipe.new("Cheese Pizza")
+    r_1.add_ingredient("Cheese", 20)
+    r_1.add_ingredient("Flour", 20)
 
     r_2 = Recipe.new("Spaghetti")
     r_2.add_ingredient("Noodles", 10)
     r_2.add_ingredient("Marinara Sauce", 10)
     r_2.add_ingredient("Cheese", 5)
 
-    pantry.add_to_shopping_list(r)
+    pantry.add_to_shopping_list(r_1)
     pantry.add_to_shopping_list(r_2)
 
     expected = "* Cheese: 25\n* Flour: 20\n* Noodles: 10\n* Marinara Sauce: 10"
@@ -201,7 +205,7 @@ class PantryTest < Minitest::Test
     expected = {"Pickles" => 1, "Peanuts" => 2}
     actual = pantry.how_many_can_i_make
 
-    assert_equal expected, actual 
+    assert_equal expected, actual
   end
 
 end
