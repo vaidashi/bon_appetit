@@ -4,12 +4,13 @@ require_relative 'recipe'
 class Pantry
 
   # attr_reader   :recipe
-  attr_accessor :stock, :recipe, :shopping_list
+  attr_accessor :stock, :recipe, :shopping_list, :cook_book
 
   def initialize
     @stock      = {}
     @recipe     = Recipe.new(recipe)
     @shopping_list = {}
+    @cook_book = {}
   end
 
   def stock_check(item)
@@ -20,7 +21,7 @@ class Pantry
     if @stock[ingredient]
       @stock[ingredient] += quantity
     else
-      @stock = {ingredient => quantity}
+      @stock[ingredient] = quantity
     end
   end
 
@@ -58,8 +59,46 @@ class Pantry
       list_output += "* #{ingredient}: #{amount}\n"
     end
     puts list_output.strip
-    list_output.strip 
+    list_output.strip
   end
+
+  def add_to_cookbook(recipe)
+    @cook_book[recipe.name] = recipe.ingredients
+  end
+
+  def what_can_i_make
+    cook_book.keys.reject do |recipe|
+    stock_to_cookbook_comparison(recipe) == false
+    end
+  end
+
+  def stock_to_cookbook_comparison(recipe)
+    cook_book[recipe].keys.all? do |ingredient|
+      stock[ingredient] >= cook_book[recipe][ingredient]
+    end
+  end
+
+  def how_many_can_i_make
+    possible_items = {}
+    what_can_i_make.each do |item|
+      # binding.pry
+      possible_items[item] = quantity_limitation(item)
+    end
+    possible_items
+  end
+
+  def quantity_limitation(item)
+    limit = 0
+    cook_book[item].each do |k, v|
+      # binding.pry
+      if limit = 0 || limit > stock[k] / v
+        limit = stock[k] / v
+      end
+    end
+    limit
+  end
+
+
 
   # def convert_units(recipe)
   #   recipe.ingredients.map do |item, quantity|
