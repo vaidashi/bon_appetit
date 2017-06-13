@@ -70,23 +70,40 @@ class Pantry
       stock[ingredient] >= cook_book[recipe][ingredient]
     end
   end
-
+  
   def how_many_can_i_make
-    possible_items = {}
-    what_can_i_make.each do |item|
-      possible_items[item] = quantity_limitation(item)
+    what_can_i_make.inject({}) do |hash, item|
+      #first [var]iable in the pipes ^ is the argument we pass to inject (similar to reduce i believe). Then add the total number through quantity limitation and set the key for the hash with hash[item] "aka hash[key]"
+      #then that gives us our hash of how many can I make. 
+      hash[item] = quantity_limitation(item).min
+      hash
     end
-    possible_items
   end
 
   def quantity_limitation(item)
-    stock_limit = 0
-    cook_book[item].each do |k, v|
-      if stock_limit = 0 || stock_limit > stock[k] / v
-        stock_limit = stock[k] / v
-      end
+    #changed this to map so we could get an array of the total for all ingredients and take the least amount.  Various methods that could have been used here.  I was just more comfortable with this one
+    stock_limit = cook_book[item].map do |k, v|
+     ((stock[k].to_f) / (v.to_f)).floor
     end
     stock_limit
   end
+
+#   def how_many_can_i_make
+#     possible_items = {}
+#     what_can_i_make.each do |item|
+#       possible_items[item] = quantity_limitation(item)
+#     end
+#     possible_items
+#   end
+
+#   def quantity_limitation(item)
+#     stock_limit = 0
+#     cook_book[item].each do |k, v|
+#       if stock_limit = 0 || stock_limit > stock[k] / v
+#         stock_limit = stock[k] / v
+#       end
+#     end
+#     stock_limit
+#   end
 
 end
