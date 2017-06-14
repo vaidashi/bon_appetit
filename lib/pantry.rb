@@ -74,17 +74,14 @@ class Pantry
   def how_many_can_i_make
     possible_items = {}
     what_can_i_make.each do |item|
-      possible_items[item] = quantity_limitation(item)
+      possible_items[item] = quantity_limitation(item).min
     end
     possible_items
   end
 
   def quantity_limitation(item)
-    stock_limit = 0
-    cook_book[item].each do |k, v|
-      if stock_limit = 0 || stock_limit > stock[k] / v
-        stock_limit = stock[k] / v
-      end
+    stock_limit = cook_book[item].map do |k,v|
+      ((stock[k].to_f) / (v.to_f)).floor
     end
     stock_limit
   end
